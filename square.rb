@@ -1,5 +1,5 @@
 class Square
-  attr_reader :type, :position
+  attr_accessor :type, :position
   def initialize(type, position)
     @type = type
     @position = position
@@ -8,7 +8,7 @@ end
 
 class Type
   def initialize(x_or_o)
-    @type = x_or_o.upper
+    @type = x_or_o.upcase!
   end
 
   def x?
@@ -56,13 +56,11 @@ class Position
   end
 
   def left_diaganal?
-    if @row == 'top' && @col == 'left' || @row == 'middle' && @col == 'center' || @row == 'bottom' && @col =='right'
-      yield
+    yield if @row == 'top' && @col == 'left' || @row == 'middle' && @col == 'center' || @row == 'bottom' && @col == 'right'
   end
 
   def right_diaganal?
-    if @row == 'top' && @col == 'right' || @row == 'middle' && @col == 'center' || @row == 'bottom' && @col =='left'
-      yield
+    yield if @row == 'top' && @col == 'right' || @row == 'middle' && @col == 'center' || @row == 'bottom' && @col == 'left'
   end
 
   def to_a

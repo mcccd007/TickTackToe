@@ -1,20 +1,22 @@
-require square
+require_relative 'square.rb'
+require 'pp'
 
 class Board
   def initialize
     @squares = []
     @square_positions = []
     @board = [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', '']
-      ]
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ]
   end
 
   def add_new_square(square)
     @squares << square
     @square_positions << square.position
-    @board[square.postion.row_i][square.postion.col_i] = square.type.to_s
+    PP.pp(square.type)
+    @board[square.position.row_i][square.position.col_i] = square.type.to_s
   end
 
   def position_filled?(square)
@@ -22,7 +24,7 @@ class Board
   end
 
   def to_s
-    %Q[
+    %(
       ------------
       #{@board[0][0]} | #{@board[0][1]} | #{@board[0][2]}
       ------------
@@ -30,13 +32,13 @@ class Board
       ------------
       #{@board[2][0]} | #{@board[2][1]} | #{@board[2][2]}
       ------------
-    ]
+    )
   end
 end
 
 class ScoreBoard
   def initialize
-    @score = [
+    @score = {
       top: 0,
       middle: 0,
       bottom: 0,
@@ -45,21 +47,24 @@ class ScoreBoard
       right: 0,
       left_diaganal: 0,
       right_diagonal: 0
-    ]
+    }
   end
 
   def player_1_move(position)
-    @score[position.row] += 1
-    @score[position.col] += 1
-    position.left_diaganal? { @score['left_diaganal'] += 1 }
-    position.right_diaganal? { @score['right_diaganal'] += 1 }
+    PP.pp(@score)
+    PP.pp(position.row.to_sym)
+    PP.pp(@score[position.row.to_sym])
+    @score[position.row.to_sym] += 1
+    @score[position.col.to_sym] += 1
+    position.left_diaganal? { @score[:left_diaganal] += 1 }
+    position.right_diaganal? { @score[:right_diaganal] += 1 }
   end
 
   def player_2_move(position)
-    @score[position.row] -= 1
-    @score[position.col] -= 1
-    position.left_diaganal? { @score['left_diaganal'] -= 1 }
-    position.right_diaganal? { @score['right_diaganal'] -= 1 }
+    @score[position.row.to_sym] -= 1
+    @score[position.col.to_sym] -= 1
+    position.left_diaganal? { @score[:left_diaganal] -= 1 }
+    position.right_diaganal? { @score[:right_diaganal] -= 1 }
   end
 
   def winner?
