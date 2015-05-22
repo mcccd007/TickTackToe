@@ -17,8 +17,14 @@ class App
   end
 
   def turn(player, type)
-    row, col = player.pick_square
-    square = Square.new(type, Position.new(row, col))
+    begin
+      row, col = player.pick_square
+      square = Square.new(type, Position.new(row, col))
+    rescue
+      puts "Check your spelling dummy"
+      row, col = player.pick_square
+      square = Square.new(type, Position.new(row, colgit 
+    end
     while @board.is_square_taken?(square)
       row, col = player.pick_square
       square = Square.new(type, Position.new(row, col))

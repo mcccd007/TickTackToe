@@ -31,8 +31,13 @@ end
 class Position
   attr_reader :row, :col
   def initialize(row, col)
-    @row = row
-    @col = col
+    if %w(top middle bottom).include?(row)
+      @row = row
+    end
+    if %w(left center right).include?(col)
+      @col = col
+    end
+    raise ArgumentError if @col.nil? || @row.nil?
   end
 
   def row_i
