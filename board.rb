@@ -12,6 +12,14 @@ class Board
     ]
   end
 
+  def is_finished?
+    done = true
+    @board.flatten.each do |x|
+      done = false if x == ''
+    end
+    return done
+  end
+
   def is_square_taken?(square)
     @board[square.position.row_i][square.position.col_i] != ''
   end
@@ -68,13 +76,12 @@ class ScoreBoard
   end
 
   def winner?
-    PP.pp(@score)
     win = false
     @score.each do |_k, v|
       if v == 3
-        win = 'player1'
+        win = 0
       elsif v == -3
-        win = 'player2'
+        win = 1
       end
     end
     return win
