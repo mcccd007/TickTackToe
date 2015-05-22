@@ -8,15 +8,15 @@ end
 
 class Type
   def initialize(x_or_o)
-    @type = x_or_o.upcase!
+    @type = x_or_o
   end
 
   def x?
-    @type == 'X' ? True : False
+    @type == 'X'
   end
 
   def o?
-    @type == 'O' ? True : False
+    @type == 'O'
   end
 
   def to_s
@@ -50,7 +50,7 @@ class Position
       0
     elsif @col == 'center'
       1
-    elsif @col == right
+    elsif @col == 'right'
       2
     end
   end

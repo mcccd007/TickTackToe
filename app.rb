@@ -15,13 +15,22 @@ class App
     puts 'Get ready to play ;)'
   end
 
-  def turn(player, type)
+  def ask_for_input(player)
     puts "#{player}'s turn"
     puts 'Enter row'
     row = gets.chomp
     puts 'Enter column'
     col = gets.chomp
+    return [row, col]
+  end
+
+  def turn(player, type)
+    row, col = ask_for_input(player)
     square = Square.new(type, Position.new(row, col))
+    while @board.is_square_taken?(square)
+      row, col = ask_for_input(player)
+      square = Square.new(type, Position.new(row, col))
+    end
     @board.add_new_square(square)
     if player == 'player 1'
       @score_board.player_1_move(square.position)
@@ -39,7 +48,6 @@ class App
       @turn = 1
     end
     puts @board.to_s
-    PP.pp(@board)
   end
 
   def end_game(winner)
@@ -50,8 +58,10 @@ class App
     welcome
     while @winner == 0
       next_turn
-      end_game(@score_board.winner?) if @score_board.winner?
+      if @score_board.winner?
+        end_game(@score_board.winner?)
+        @winner = 1
+      end
     end
-    end_game
   end
 end

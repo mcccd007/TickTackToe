@@ -12,10 +12,13 @@ class Board
     ]
   end
 
+  def is_square_taken?(square)
+    @board[square.position.row_i][square.position.col_i] != ''
+  end
+
   def add_new_square(square)
     @squares << square
     @square_positions << square.position
-    PP.pp(square.type)
     @board[square.position.row_i][square.position.col_i] = square.type.to_s
   end
 
@@ -46,14 +49,11 @@ class ScoreBoard
       center: 0,
       right: 0,
       left_diaganal: 0,
-      right_diagonal: 0
+      right_diaganal: 0
     }
   end
 
   def player_1_move(position)
-    PP.pp(@score)
-    PP.pp(position.row.to_sym)
-    PP.pp(@score[position.row.to_sym])
     @score[position.row.to_sym] += 1
     @score[position.col.to_sym] += 1
     position.left_diaganal? { @score[:left_diaganal] += 1 }
@@ -68,14 +68,15 @@ class ScoreBoard
   end
 
   def winner?
+    PP.pp(@score)
+    win = false
     @score.each do |_k, v|
       if v == 3
-        'player1'
+        win = 'player1'
       elsif v == -3
-        'player2'
-      else
-        False
+        win = 'player2'
       end
     end
+    return win
   end
 end
